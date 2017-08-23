@@ -29,6 +29,7 @@
 				<a id="uniBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/unilist">대학교</a>
 				<a id="deptBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/deptlist">학과</a>
 				<a id="labBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/lablist">연구실</a>
+				<a id="labBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/uploads/images/20177234494587.txt">다운</a>
 				
 			</div>
 		</div>

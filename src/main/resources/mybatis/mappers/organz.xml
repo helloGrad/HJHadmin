@@ -20,6 +20,12 @@
 		 #{prntsOrgnzNo}, null, null, null, #{hmnbrdDstnct});
 		]]>
 		</if>
+		
+		<selectKey keyProperty="id" resultType="int">
+		<![CDATA[ 
+        SELECT LAST_INSERT_ID()
+        ]]>
+	    </selectKey>
 	</insert>
 
 	<insert id="insertLab" parameterType="organzVo">
@@ -143,6 +149,12 @@
 		where ORGNZ_DSTNCT='연구실'
 		and orgnz_no = #{no};
 		]]>
+	</select>
+	
+	<select id="lastInsertId" resultType="int">
+	<![CDATA[
+	select last_insert_id()
+	]]>
 	</select>
 
 

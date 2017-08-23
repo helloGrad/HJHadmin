@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.grad.admin.repository.OrganzDao;
 import com.grad.admin.vo.OrganzVo;
@@ -148,6 +149,10 @@ public class OrganzService {
 		
 		organzDao.updateResrch(resrchAcrsltVo);
 		
+	}
+	
+	public int lastInsertId() {
+		return organzDao.lastInsertId();
 	}
 
 }

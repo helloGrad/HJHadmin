@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.grad.admin.security.Auth;
+import com.grad.admin.service.ApndngFileService;
 import com.grad.admin.service.OrganzService;
+import com.grad.admin.vo.ApndngFileVo;
 import com.grad.admin.vo.OrganzVo;
 import com.grad.admin.vo.ResrchAcrsltVo;
 
@@ -25,6 +28,9 @@ public class OrganzController {
 	 */
 	@Autowired
 	OrganzService organzService;
+	
+	@Autowired
+	ApndngFileService apndngFileService;
 
 	/*
 	 * 허주한
@@ -84,6 +90,9 @@ public class OrganzController {
 		}else {
 			
 			model.addAttribute("vo", organzService.getOrgnzByNo(no, type));
+			
+			System.out.println(apndngFileService.getFileList(no,type));
+			model.addAttribute("fileList", apndngFileService.getFileList(no,type));
 			return "organz/updategrad";
 			
 		}
@@ -142,26 +151,44 @@ public class OrganzController {
 	@Auth(role=Auth.Role.ADMIN) 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insertGrad(Model model, @ModelAttribute OrganzVo organzVo, @RequestParam(value = "prntsOrgnzStr", required = true, defaultValue = "") String prntsOrgnzStr,
-			@RequestParam String type, @ModelAttribute ResrchAcrsltVo resrchAcrsltVo) {
+			@RequestParam String type, @ModelAttribute ResrchAcrsltVo resrchAcrsltVo,
+			@RequestParam(value="attachFile", required=false) MultipartFile[] attachFile) {
 		
+		int lastId=0;
+		ApndngFileVo vo = null;
 		
 		if (type.equals("연구실")) {
 
 			if (resrchAcrsltVo.getResrchText() == null) { // 연구실입력인 경우
 				organzService.insertLab(organzVo);
+				lastId=organzService.lastInsertId();
 			}
 
 			if (organzVo.getOrgnzNm() == null) { // 연구실적입력인 경우
 				organzService.insertResrch(resrchAcrsltVo);
 			}
-			return "redirect:/organz/lablist";
 
+		} else {
+			organzService.insert(organzVo, prntsOrgnzStr);
+			lastId=organzService.lastInsertId();
+			
 		}
+		
+		for(int i=0;i<attachFile.length;i++) {
+			
+			apndngFileService.restore(attachFile[i]);
+			vo = apndngFileService.getFileVo();
+			vo.setPrntsDstnct(type);
+			vo.setPrntsNo(lastId);
+			apndngFileService.insert(vo);
+		}
+		
+		return "redirect:/organz/list";
+		
 
 		
 		
-		organzService.insert(organzVo, prntsOrgnzStr);
-		return "redirect:/organz/list";
+		
 	}
 	
 	

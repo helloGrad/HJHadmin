@@ -103,4 +103,9 @@ public void updateResrch(ResrchAcrsltVo resrchAcrsltVo) {
 		
 	}
 
+public int lastInsertId() {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("organz.lastInsertId");
+}
+
 }
