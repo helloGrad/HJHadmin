@@ -6,18 +6,18 @@
 	<!-- 허주한 -->
 	<insert id="insertGrad" parameterType="organzVo">
 		<![CDATA[
-		insert into organz 
-		values(null, #{orgnzNm}, #{engOrgnzNm}, #{orgnzDstnct}, #{hmpageUrl}, #{telNo}, #{faxNo}, #{addr}, #{detailAddr}, 
+		insert into organz (ORGNZ_NM, ENG_ORGNZ_NM, ORGNZ_DSTNCT, HMPAGE_URL, TEL_NO, FAX_NO, ADDR, DETAIL_ADDR, PRNTS_ORGNZ_NO, HMNBRD_DSTNCT)
+		values(#{orgnzNm}, #{engOrgnzNm}, #{orgnzDstnct}, #{hmpageUrl}, #{telNo}, #{faxNo}, #{addr}, #{detailAddr}, 
 		]]>
 
 		<if test="prntsOrgnzNo == -1 ">
 		<![CDATA[ 
-		 null, null, null, null, #{hmnbrdDstnct});
+		 null, #{hmnbrdDstnct});
 		]]>
 		</if>
 		<if test="prntsOrgnzNo != -1">
 		<![CDATA[ 
-		 #{prntsOrgnzNo}, null, null, null, #{hmnbrdDstnct});
+		 #{prntsOrgnzNo}, #{hmnbrdDstnct});
 		]]>
 		</if>
 		
@@ -49,6 +49,7 @@
 		select orgnz_no orgnzNo, orgnz_nm orgnzNm, ENG_ORGNZ_NM engOrgnzNm, ORGNZ_DSTNCT orgnzDstnct
 		from organz
 		where ORGNZ_DSTNCT like #{type}
+		order by 2
 		]]>
 	</select>
 
@@ -137,6 +138,7 @@
 		MAP_PROF_NM mapProfNm, LAB_INTRO labIntro, RSRCHR_INFO_TEXT rsrchrInfoText, HMNBRD_DSTNCT hmnbrdDstnct
 		from organz
 		where ORGNZ_DSTNCT='연구실'
+		order by 2
 		]]>
 	</select>
 	
@@ -151,11 +153,25 @@
 		]]>
 	</select>
 	
+	<!-- 허주한  -->
 	<select id="lastInsertId" resultType="int">
 	<![CDATA[
 	select last_insert_id()
 	]]>
 	</select>
+	
+	<!-- 허주한  -->
+	<select id="getListByChar" resultType="organzVo" parameterType="map">
+		<![CDATA[
+		select ORGNZ_NO orgnzNo, ORGNZ_NM orgnzNm, ORGNZ_DSTNCT orgnzDstnct
+		from organz 
+		where ORGNZ_DSTNCT like #{type}
+		and left(ORGNZ_NM,1) between #{start} and #{end}
+		order by 2;
+		]]>
+	</select>
+	
+	
 
 
 </mapper>

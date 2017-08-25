@@ -28,7 +28,7 @@ public class OrganzController {
 	 */
 	@Autowired
 	OrganzService organzService;
-	
+
 	@Autowired
 	ApndngFileService apndngFileService;
 
@@ -38,27 +38,33 @@ public class OrganzController {
 	@Auth(role=Auth.Role.ADMIN) 
 	@RequestMapping({"/list", "/gradlist"})
 	public String gradList(Model model) {
-		
+
 		model.addAttribute("list", organzService.getOrgnzList("대학원"));
 		return "/organz/gradlist";
 	}
-	
+
+	/*
+	 * 허주한
+	 */
 	@Auth(role=Auth.Role.ADMIN) 
 	@RequestMapping("/unilist")
 	public String uniList(Model model) {
-		
+
 		model.addAttribute("list", organzService.getOrgnzList("대학교"));
 		return "/organz/gradlist";
 	}
-	
+
+	/*
+	 * 허주한
+	 */
 	@Auth(role=Auth.Role.ADMIN) 
 	@RequestMapping("/deptlist")
 	public String deptList(Model model) {
-		
+
 		model.addAttribute("list", organzService.getOrgnzList("학과"));
 		return "/organz/gradlist";
 	}
-	
+
 	/*
 	 * 박가혜
 	 */
@@ -66,19 +72,19 @@ public class OrganzController {
 	@RequestMapping("/lablist") // 연구실 리스트
 	public String lablist(Model model) {
 
-		model.addAttribute("organzLabList", organzService.getOrganzLabList());
+		model.addAttribute("list", organzService.getOrganzLabList());
 
-		return "organz/lablist";
+		return "/organz/gradlist";
 	}
-	
+
 	/*
 	 * 허주한
 	 */
 	@Auth(role=Auth.Role.ADMIN) 
 	@RequestMapping("/updateform")
 	public String updateGradForm(Model model, @RequestParam int no, @RequestParam String type) {
-		
-		
+
+
 		/*
 		 * 박가혜
 		 */
@@ -88,26 +94,26 @@ public class OrganzController {
 			return "organz/labupdatedetail";
 
 		}else {
-			
+
 			model.addAttribute("vo", organzService.getOrgnzByNo(no, type));
-			
+
 			System.out.println(apndngFileService.getFileList(no,type));
 			model.addAttribute("fileList", apndngFileService.getFileList(no,type));
 			return "organz/updategrad";
-			
+
 		}
 
 	}
-	
 
-	
+
+
 	/*
 	 * 허주한
 	 */
 	@Auth(role=Auth.Role.ADMIN) 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String updateGrad(Model model, @ModelAttribute OrganzVo organzVo, @RequestParam String type, @RequestParam(value = "prntsOrgnzStr", required = true, defaultValue = "") String prntsOrgnzStr) {
-		
+
 		/*
 		 * 박가혜
 		 */
@@ -121,30 +127,30 @@ public class OrganzController {
 			return "redirect:/organz/list";
 		}
 
-		
-		
-		
+
+
+
 	}
-	
-	
-	
+
+
+
 	/*
 	 * 허주한
 	 */
 	@Auth(role=Auth.Role.ADMIN) 
 	@RequestMapping("/insertform")
 	public String insertGradForm(Model model, @RequestParam String type) {
-		
+
 		if(type.equals("대학원")||type.equals("대학교")||type.equals("학과")) {
 			return "/organz/insertgrad";
 		}
 		else {
 			return "organz/labdetail";
 		}
-		
+
 	}
-	
-	
+
+
 	/*
 	 * 허주한
 	 */
@@ -153,10 +159,10 @@ public class OrganzController {
 	public String insertGrad(Model model, @ModelAttribute OrganzVo organzVo, @RequestParam(value = "prntsOrgnzStr", required = true, defaultValue = "") String prntsOrgnzStr,
 			@RequestParam String type, @ModelAttribute ResrchAcrsltVo resrchAcrsltVo,
 			@RequestParam(value="attachFile", required=false) MultipartFile[] attachFile) {
-		
+
 		int lastId=0;
 		ApndngFileVo vo = null;
-		
+
 		if (type.equals("연구실")) {
 
 			if (resrchAcrsltVo.getResrchText() == null) { // 연구실입력인 경우
@@ -171,47 +177,49 @@ public class OrganzController {
 		} else {
 			organzService.insert(organzVo, prntsOrgnzStr);
 			lastId=organzService.lastInsertId();
-			
+
 		}
-		
+
 		for(int i=0;i<attachFile.length;i++) {
-			
-			apndngFileService.restore(attachFile[i]);
-			vo = apndngFileService.getFileVo();
-			vo.setPrntsDstnct(type);
-			vo.setPrntsNo(lastId);
-			apndngFileService.insert(vo);
+
+			if(!attachFile[i].isEmpty()) {
+				apndngFileService.restore(attachFile[i]);
+				vo = apndngFileService.getFileVo();
+				vo.setPrntsDstnct(type);
+				vo.setPrntsNo(lastId);
+				apndngFileService.insert(vo);
+			}
 		}
-		
+
 		return "redirect:/organz/list";
-		
 
-		
-		
-		
+
+
+
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/***********************************************************************/
-	
-	
-	
-	
-	
-	
-
-
-	
-	
-	
-	
 
 
 
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*
 	 * 박가혜
 	 */
@@ -224,10 +232,10 @@ public class OrganzController {
 
 		return "organz/resrchlist";
 	}
-	
-	
 
-	
+
+
+
 	/*
 	 * 박가혜
 	 */
@@ -235,15 +243,15 @@ public class OrganzController {
 	@RequestMapping("/resrchdetail") //연구실적 수정폼
 	public String resrchdetail(Model model, @RequestParam(value = "no", required = true, defaultValue = "") int resrchAcrsltNo) {
 
-		
-		
+
+
 		ResrchAcrsltVo resrchAcrsltVo = organzService.getResrchNo(resrchAcrsltNo);
 		model.addAttribute("resrchAcrsltVo", resrchAcrsltVo);
-	
-		
+
+
 		return "organz/resrchupdate";
 	}
-	
+
 	/*
 	 * 박가혜
 	 */
@@ -251,14 +259,14 @@ public class OrganzController {
 	@RequestMapping(value = "/resrchupdate" ,method = RequestMethod.POST)//연구실적 수정폼
 	public String resrchupdate(Model model, @ModelAttribute ResrchAcrsltVo resrchAcrsltVo) {
 
-		
-		
+
+
 		organzService.updateResrch(resrchAcrsltVo);
-	
-		
+
+
 		return "redirect:/organz/lablist";
 	}
-	
+
 
 
 }

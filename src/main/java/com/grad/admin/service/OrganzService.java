@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.grad.admin.repository.OrganzDao;
 import com.grad.admin.vo.OrganzVo;
@@ -153,6 +152,15 @@ public class OrganzService {
 	
 	public int lastInsertId() {
 		return organzDao.lastInsertId();
+	}
+
+	public List<OrganzVo> getListByChar(String type, String start, String end) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("type", type);
+		map.put("start", start);
+		map.put("end", end);
+		return organzDao.getListByChar(map);
 	}
 
 }

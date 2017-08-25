@@ -39,24 +39,17 @@ textarea.autosize { min-height: 50px; }
 		<!-- ///// filter (대분류) //////-->
 		<div class="row">
 			<div class="col-lg-4 centering">
-				<a id="gradBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/list">대학원</a>
-				<a id="uniBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/unilist">대학교</a>
-				<a id="deptBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/deptlist">학과</a>
-				<a id="labBtn" class="btn btn-primary" href="#">연구실</a>
-				<c:forEach items="${fileList }" var="list" varStatus="status">
+				<c:import url="/WEB-INF/views/include/adminorglist.jsp" />
+			</div>
+			<c:forEach items="${fileList }" var="list" varStatus="status">
 					<a id="down"  href="${pageContext.servletContext.contextPath }/download?no=${list.apndngFileNo}">${list.apndngFileNm }</a>
 				</c:forEach>
-				
-			</div>
 		</div>
 
 		<hr class="nav-line">
 
 		<div class="row">
 		
-			<div id="grad" class="col-lg-12">
-				<a id="insertBtn" class="btn btn-primary">+</a>
-			</div>
 			
 			<form class="updateform" id="updateform" name="updateform"method="post" action="${pageContext.servletContext.contextPath }/organz/update">
 				<input type="hidden" id="type" name="type" value="대학원">

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,43 +15,42 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	$ ('#file').change(function () {
+	    //alert($('#file').prop("files")[0].name);
+	    for(var i=0;i<$('#file').prop("files").length;i++){
+	    	$('#apndngfiles').append("<p>"+$('#file').prop("files")[i].name+"</p>")	
+	    }
+	    
+	});	
+	
+	$("#prnt").click(function(){
+		var url="${pageContext.servletContext.contextPath }/resources/html/child.html"
+		window.open(url,"childForm", "width=450, height=250, resizable = no, scrollbars = no");
+	})
+	
+	
+})
 
-	function addFile(){
-		$('#filetable').append( $('#preset tr').clone() );
-		// $('#preset tr').clone() : id=preset 에서 tr 요소 셀렉트 하여 복제 !!
-		// form1 안에 이름이 tr_attach_file 인것 중 마지막 것 다음에 추가합니다.
-		// 이렇게 하면 실행때 마다 동적으로 하나씩 추가됩니다.
-	}
+
+//	function addFile(){
+		//$('#filetable').append( $('#preset tr').clone() );
+
+	//}
 
 </script>
 </head>
 <body>
 
 	<c:import url="/WEB-INF/views/include/header.jsp" />
-
 	<div class="container">
-		<!-- ///// filter (대분류) //////-->
 		<div class="row">
-			<div class="col-lg-4 centering">
-				<a id="gradBtn" class="btn btn-primary"
-					href="${pageContext.servletContext.contextPath }/organz/list">대학원</a>
-				<a id="uniBtn" class="btn btn-primary"
-					href="${pageContext.servletContext.contextPath }/organz/unilist">대학교</a>
-				<a id="deptBtn" class="btn btn-primary"
-					href="${pageContext.servletContext.contextPath }/organz/deptlist">학과</a>
-				<a id="labBtn" class="btn btn-primary" href="#">연구실</a>
-
-			</div>
+			<c:import url="/WEB-INF/views/include/adminorglist.jsp" />
 		</div>
 
 		<hr class="nav-line">
 
 		<div class="row">
-
-			<div id="grad" class="col-lg-12">
-				<a id="insertBtn" class="btn btn-primary">+</a>
-
-			</div>
 
 			<form class="updateform" id="updateform" name="updateform"
 				method="post" enctype="multipart/form-data"
@@ -80,15 +79,18 @@
 					<label>부모번호:</label> <input type="text" class="form-control"
 						id="prntsOrgnzStr" name="prntsOrgnzStr">
 						
-						<button type="button" onclick="addFile()">파일 추가</button>
+						<!--  <button type="button" onclick="addFile()">파일 추가</button>-->
 				<table id="filetable" cellpadding="5" cellspacing="0">
-					<!--<tr name="tr_attach_file">
-						  <th>첨부파일</th>
-						<td><input type="file" name="attachFile" />
-							</td>
-					</tr>-->
+					<tr name="tr_attach_file">
+						<th>첨부파일 </th>
+						<td><input id="file" type="file" name="attachFile" multiple /></td>
+					</tr>
+					
 					<!-- 추가 버튼을 누르면 위 숨겨진 테이블의 tr 을 가져다가 추가할 겁니닷 -->
 				</table>
+				<div id='apndngfiles'>
+					
+				</div>
 
 
 				</div>
@@ -96,20 +98,21 @@
 				<button type="submit" class="btn btn-primary btn-lg">입력</button>
 			</form>
 
-			<form name="form1" method="post" action="upload"
+			<!--  <form name="form1" method="post" action="upload"
 				enctype="multipart/form-data">
 				
 				<input type="submit" value="upload">
-			</form>
+			</form>-->
 
 
-			<table id="preset" style="display: none;">
+			<!--<table id="preset" style="display: none;">
 				<tr name="tr_attach_file">
 					<th>첨부파일</th>
-					<td><input type="file" name="attachFile" /></td>
+					<td><input id="file" type="file" name="attachFile" multiple/></td>
 				</tr>
-			</table>
-
+			</table>-->
+			
+			<a id="prnt" type="button" class="button">123123</a>
 
 		</div>
 

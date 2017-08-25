@@ -9,40 +9,30 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/list.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/adminform.css">
-<link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+		<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/list.js"></script>
 </head>
 <body>
 
 	<c:import url="/WEB-INF/views/include/header.jsp" />
-
 	<div class="container">
-		<!-- ///// filter (대분류) //////-->
+	
 		<div class="row">
-		<h3>${list[0].orgnzDstnct } 수정하기</h3>
-			<div class="col-lg-4 centering">
-				<a id="gradBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/list">대학원</a>
-				<a id="uniBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/unilist">대학교</a>
-				<a id="deptBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/deptlist">학과</a>
-				<a id="labBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/lablist">연구실</a>
-				<a id="labBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/uploads/images/20177234494587.txt">다운</a>
-				
-			</div>
-		</div>
-
-		<hr class="nav-line">
-
-		<div class="row">
-		
-			<div id="grad" class="col-lg-12">
-				<a id="insertBtn" class="btn btn-primary" href="${pageContext.servletContext.contextPath }/organz/insertform?type=${list[0].orgnzDstnct}">+</a>
-			</div>
+			<c:import url="/WEB-INF/views/include/adminorglist.jsp" />
 			
 		</div>
+		
+		<div class="row">
+			<c:import url="/WEB-INF/views/include/charlist.jsp" />
+		</div>
+		
+		<hr class="nav-line">
+		<div id="fetchList" class="row">
 		<c:forEach items="${list }" var="list" varStatus="status">
 			<div class="col-md-12">
 				<h3>
@@ -53,14 +43,12 @@
 			</div>
 		</c:forEach>
 
-
-		
+		</div>
 
 
 	</div>
 
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	
 </body>
 </html>
