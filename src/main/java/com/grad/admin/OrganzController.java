@@ -180,14 +180,16 @@ public class OrganzController {
 
 		}
 
-		for(int i=0;i<attachFile.length;i++) {
+		if(attachFile != null) {
+			for(int i=0;i<attachFile.length;i++) {
 
-			if(!attachFile[i].isEmpty()) {
-				apndngFileService.restore(attachFile[i]);
-				vo = apndngFileService.getFileVo();
-				vo.setPrntsDstnct(type);
-				vo.setPrntsNo(lastId);
-				apndngFileService.insert(vo);
+				if(!attachFile[i].isEmpty()) {
+					apndngFileService.restore(attachFile[i]);
+					vo = apndngFileService.getFileVo();
+					vo.setPrntsDstnct(type);
+					vo.setPrntsNo(lastId);
+					apndngFileService.insert(vo);
+				}
 			}
 		}
 
