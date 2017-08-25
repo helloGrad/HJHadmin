@@ -40,7 +40,7 @@ public class OrganzController {
 	public String gradList(Model model) {
 
 		model.addAttribute("list", organzService.getOrgnzList("대학원"));
-		return "/organz/gradlist";
+		return "/organz/list";
 	}
 
 	/*
@@ -51,7 +51,7 @@ public class OrganzController {
 	public String uniList(Model model) {
 
 		model.addAttribute("list", organzService.getOrgnzList("대학교"));
-		return "/organz/gradlist";
+		return "/organz/list";
 	}
 
 	/*
@@ -62,7 +62,7 @@ public class OrganzController {
 	public String deptList(Model model) {
 
 		model.addAttribute("list", organzService.getOrgnzList("학과"));
-		return "/organz/gradlist";
+		return "/organz/list";
 	}
 
 	/*
@@ -74,7 +74,7 @@ public class OrganzController {
 
 		model.addAttribute("list", organzService.getOrganzLabList());
 
-		return "/organz/gradlist";
+		return "/organz/list";
 	}
 
 	/*
@@ -145,7 +145,7 @@ public class OrganzController {
 			return "/organz/insertgrad";
 		}
 		else {
-			return "organz/labdetail";
+			return "organz/insertlab";
 		}
 
 	}

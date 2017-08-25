@@ -38,9 +38,10 @@ textarea.autosize { min-height: 50px; }
 	<div class="container">
 		<!-- ///// filter (대분류) //////-->
 		<div class="row">
-			<div class="col-lg-4 centering">
-				<c:import url="/WEB-INF/views/include/adminorglist.jsp" />
-			</div>
+			<c:import url="/WEB-INF/views/organz/include/menu.jsp" />
+			
+		</div>
+		<div class="row">
 			<c:forEach items="${fileList }" var="list" varStatus="status">
 					<a id="down"  href="${pageContext.servletContext.contextPath }/download?no=${list.apndngFileNo}">${list.apndngFileNm }</a>
 				</c:forEach>
