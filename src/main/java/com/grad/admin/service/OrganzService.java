@@ -44,14 +44,20 @@ public class OrganzService {
 	/*
 	 * 허주한
 	 * */
-	public boolean insertGrad(OrganzVo organzVo, String tabnm, String prntsOrgnzStr) {
+
+	public boolean insert(OrganzVo organzVo, String prntsOrgnzStr) {
+		// TODO Auto-generated method stub
 		if(prntsOrgnzStr.isEmpty() || prntsOrgnzStr.equals(null)) {
 			organzVo.setPrntsOrgnzNo(-1);
 		} else {
 			organzVo.setPrntsOrgnzNo(Integer.parseInt(prntsOrgnzStr));
 		}
 		
-		return organzDao.insertGrad(organzVo);
+		if(organzVo.getOrgnzDstnct().equals("대학원")||organzVo.getOrgnzDstnct().equals("학과")||organzVo.getOrgnzDstnct().equals("대학교")) {
+			return organzDao.insertGrad(organzVo);
+			
+		}
+		return false;
 	}
 
 	/*
@@ -94,20 +100,7 @@ public class OrganzService {
 		
 	}
 
-	public boolean insert(OrganzVo organzVo, String prntsOrgnzStr) {
-		// TODO Auto-generated method stub
-		if(prntsOrgnzStr.isEmpty() || prntsOrgnzStr.equals(null)) {
-			organzVo.setPrntsOrgnzNo(-1);
-		} else {
-			organzVo.setPrntsOrgnzNo(Integer.parseInt(prntsOrgnzStr));
-		}
-		
-		if(organzVo.getOrgnzDstnct().equals("대학원")||organzVo.getOrgnzDstnct().equals("학과")||organzVo.getOrgnzDstnct().equals("대학교")) {
-			return organzDao.insertGrad(organzVo);
-			
-		}
-		return false;
-	}
+
 
 	/**************************************************/
 	

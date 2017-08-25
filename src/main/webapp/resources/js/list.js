@@ -37,7 +37,8 @@ var clickCharBtn = function(){
 			for(var i = 0 ; i<response.data.length ; i++){
 				$("#fetchList").append("<div class='col-md-12'> " +
 				"<h3> " +
-				"<a	href='${pageContext.servletContext.contextPath }/organz/updateform?no=" + response.data[i].orgnzNo +"&type="+response.data[i].orgnzDstnct+"'>"+response.data[i].orgnzNm+"</a> "+
+				"<a	href='/admin/organz/updateform?no=" + response.data[i].orgnzNo +"&type="+response.data[i].orgnzDstnct+"'>"+response.data[i].orgnzNm+"</a> "+
+				"<a id='resrchbtn' class='btn btn-primary' href='/admin/organz/resrchlist?no="+response.data[i].orgnzNo+"'>연구실적수정하기</a> " +
 				"</h3> " +
 				"<hr> </div>");
 			}
